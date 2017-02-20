@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "TableViewController.h"
+//#import "TableViewController.h"
 
 @interface AppDelegate ()
 
@@ -20,14 +20,13 @@
     // Override point for customization after application launch.
     
     //
-    
+    /*
     TableViewController* vc = [[TableViewController alloc] initWhithFolderPath: @"/"];
     
     UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:vc];
     
     self.window.rootViewController = navController;
-
-    
+    */
     return YES;
 }
 

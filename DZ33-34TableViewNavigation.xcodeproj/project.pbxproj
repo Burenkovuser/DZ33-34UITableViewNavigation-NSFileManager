@@ -60,13 +60,13 @@
 		FB0A99621E59744D00EF81AC /* DZ33-34TableViewNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				FB0A997A1E597A2900EF81AC /* Images */,
 				FB0A99661E59744E00EF81AC /* AppDelegate.h */,
 				FB0A99671E59744E00EF81AC /* AppDelegate.m */,
 				FB0A996C1E59744E00EF81AC /* Main.storyboard */,
 				FB0A997C1E597B2300EF81AC /* TableViewController.h */,
 				FB0A997D1E597B2300EF81AC /* TableViewController.m */,
 				FB0A996F1E59744E00EF81AC /* Assets.xcassets */,
-				FB0A997A1E597A2900EF81AC /* Images */,
 				FB0A99711E59744E00EF81AC /* LaunchScreen.storyboard */,
 				FB0A99741E59744E00EF81AC /* Info.plist */,
 				FB0A99631E59744E00EF81AC /* Supporting Files */,

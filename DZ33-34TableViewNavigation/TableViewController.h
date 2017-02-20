@@ -10,6 +10,8 @@
 
 @interface TableViewController : UITableViewController
 
+@property(strong, nonatomic) NSString* path;
+
 -(id) initWhithFolderPath:(NSString*) path; //конструктор куда передаем путь
 
 @end
