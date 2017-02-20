@@ -7,12 +7,13 @@
 //
 
 #import "TableViewController.h"
+#import "FileCell.h"
 
 @interface TableViewController ()
 
 //@property(strong, nonatomic) NSString* path;
 @property(strong, nonatomic) NSArray* contents;
-
+//@property(strong, nonatomic) NSString* selectedPath;
 
 @end
 
@@ -60,6 +61,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];//делаем для наследников
+    
     self.navigationItem.title = [self.path lastPathComponent];//название последнего компонента пути
     
     self.navigationItem.title=[self.path lastPathComponent];//только последний элемент
@@ -76,10 +83,7 @@
         self.path = @"/";
     }
 
-}
-
--(void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];//делаем для наследников
+    
     NSLog(@"Path=%@. ViewController=%@. Index Current ViewController:%@",
           self.path,
           @([self.navigationController.viewControllers count]),//сколько контроллеров на стеке
@@ -92,6 +96,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSString*) fileSizeFromValue:(unsigned long long) size {//метод вывода формата данных для размера фаила
+    
+    static NSString* units[] = {@"B", @"KB", @"MB", @"GB", @"TB"};
+    static int unitsCount = 5;
+    
+    int index = 0;
+    
+    double fileSize = (double)size;
+    
+    while (fileSize > 1024 && index < unitsCount) {
+        
+        fileSize = fileSize / 1024;
+        
+        index++;
+        
+    }
+    
+    return [NSString stringWithFormat:@"%.2f %@", fileSize, units[index]];
+    
+}
 
 -(BOOL) isDirectoryAtIndexPath: (NSIndexPath*) indexPath{//определяем это деректория или нет
     NSString *fileName=[self.contents objectAtIndex:indexPath.row];
@@ -111,6 +135,10 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+-(IBAction) actiionInfoCell:(id)sender {
+    NSLog(@"actionCell");
+}
+
 #pragma mark - Table view data source
 /*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -121,48 +149,98 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return self.contents.count;
+    //return [self.contents count]//Ни чем не отличаются, но Геттер лучше вызывать с помощью [], а сеттер через точку
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString* CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
+    static NSString* fileIdentifier = @"FileCell";
+    static NSString* folderIdentifier = @"FolderCell";
     
     NSString *fileName=[self.contents objectAtIndex:indexPath.row];//количество рядов - элементов в массиве
-    cell.textLabel.text=fileName;
-    if ([self isDirectoryAtIndexPath:indexPath]) { //если деректория
-        cell.imageView.image=[UIImage imageNamed:@"folder.png"];
-    }
-    else{
-        cell.imageView.image=[UIImage imageNamed:@"file.png"];
+    
+    if ([self isDirectoryAtIndexPath:indexPath]) {
+        // если в ячейке директория
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:folderIdentifier];
         
+        cell.textLabel.text=fileName;
+        
+        return cell;
+        
+    } else {
+        
+        NSString* path = [self.path stringByAppendingPathComponent:fileName];
+        
+        NSDictionary* attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+        
+        FileCell *cell = [tableView dequeueReusableCellWithIdentifier:fileIdentifier];
+        
+        cell.fileName.text = fileName;
+        cell.fileSize.text = [self fileSizeFromValue:[attributes fileSize]];
+        cell.fileDate.text = [NSString stringWithFormat:@"%@", [attributes fileModificationDate]];
+        
+        return cell;
     }
-    return cell;
-
+  
+    return nil;
 }
 
 
 #pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {//метод задает высоту ячейки
+    if ([self isDirectoryAtIndexPath:indexPath]) {
+        return 44.f;
+    }else {
+        return 80.f;
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];//делаем его не активным
     if([self isDirectoryAtIndexPath:indexPath]){//используем ранее созданный метод
         NSString *fileName=[self.contents objectAtIndex:indexPath.row];
-        NSString *filePath=[self.path stringByAppendingPathComponent:fileName];
-        TableViewController *controller= [[TableViewController alloc] initWhithFolderPath:filePath]; //в нашем котроллере создаем контроллер
-        [[self navigationController]  pushViewController:controller animated:YES];//добавляем контроллер
+        NSString * path=[self.path stringByAppendingPathComponent:fileName];
+        //TableViewController *controller= [[TableViewController alloc] initWhithFolderPath:filePath]; //в нашем котроллере создаем контроллер
+        //[[self navigationController]  pushViewController:controller animated:YES];//добавляем контроллер
+        
+        //UIStoryboard* storyboard = self.storyboard;
+        
+       
+        TableViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"TableViewController"];//подгружает тот самый вью котроллер
+        
+        vc.path = path;
+        
+        [self.navigationController pushViewController:vc animated:YES];
+         
+        
+        //self.selectedPath=path;
+        
+        //[self performSegueWithIdentifier:@"navigateDeep" sender:nil ];
     }
 
 }
 
-
+/*
+#pragma mark-Segue
+-(BOOL) shouldPerformSegueWithIdentifier:(nonnull NSString *)identifier sender:(nullable id)sender{
+    NSLog(@"shouldPerformSegueWithIdentifier identifier:%@",identifier);
+    return YES;
+}
+-(void) prepareForSegue:(nonnull UIStoryboardSegue *)segue sender:(nullable id)sender{
+    NSLog(@"prepareForSegue %@",segue.identifier);
+    
+    if([segue.identifier isEqualToString:@"navigateDeep"]){
+        TableViewController *destinationController=segue.destinationViewController;
+        TableViewController *sourceController=segue.sourceViewController;
+        destinationController.path=sourceController.selectedPath;
+        
+    }
+    
+}
+*/
 
 /*
 // Override to support conditional editing of the table view.

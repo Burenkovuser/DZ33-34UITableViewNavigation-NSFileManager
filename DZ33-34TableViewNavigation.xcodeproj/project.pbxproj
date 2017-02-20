@@ -14,6 +14,7 @@
 		FB0A99731E59744E00EF81AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0A99711E59744E00EF81AC /* LaunchScreen.storyboard */; };
 		FB0A997B1E597A2900EF81AC /* Images in Resources */ = {isa = PBXBuildFile; fileRef = FB0A997A1E597A2900EF81AC /* Images */; };
 		FB0A997E1E597B2300EF81AC /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0A997D1E597B2300EF81AC /* TableViewController.m */; };
+		FB0A99811E5B034A00EF81AC /* FileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0A99801E5B034A00EF81AC /* FileCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,8 @@
 		FB0A997A1E597A2900EF81AC /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		FB0A997C1E597B2300EF81AC /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		FB0A997D1E597B2300EF81AC /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		FB0A997F1E5B034A00EF81AC /* FileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileCell.h; sourceTree = "<group>"; };
+		FB0A99801E5B034A00EF81AC /* FileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,7 @@
 				FB0A99661E59744E00EF81AC /* AppDelegate.h */,
 				FB0A99671E59744E00EF81AC /* AppDelegate.m */,
 				FB0A996C1E59744E00EF81AC /* Main.storyboard */,
+				FB0A99821E5B035C00EF81AC /* Cell */,
 				FB0A997C1E597B2300EF81AC /* TableViewController.h */,
 				FB0A997D1E597B2300EF81AC /* TableViewController.m */,
 				FB0A996F1E59744E00EF81AC /* Assets.xcassets */,
@@ -80,6 +84,15 @@
 				FB0A99641E59744E00EF81AC /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FB0A99821E5B035C00EF81AC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A997F1E5B034A00EF81AC /* FileCell.h */,
+				FB0A99801E5B034A00EF81AC /* FileCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB0A99681E59744E00EF81AC /* AppDelegate.m in Sources */,
+				FB0A99811E5B034A00EF81AC /* FileCell.m in Sources */,
 				FB0A997E1E597B2300EF81AC /* TableViewController.m in Sources */,
 				FB0A99651E59744E00EF81AC /* main.m in Sources */,
 			);

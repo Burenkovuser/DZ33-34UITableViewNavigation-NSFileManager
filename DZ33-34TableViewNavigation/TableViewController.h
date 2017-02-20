@@ -14,4 +14,6 @@
 
 -(id) initWhithFolderPath:(NSString*) path; //конструктор куда передаем путь
 
+-(IBAction) actiionInfoCell:(id)sender;
+
 @end
